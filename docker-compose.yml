@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+
+  user-service:
+    build: ./user-service
+
+  product-service:
+    build: ./product-service
+
+  cart-service:
+    build: ./cart-service
+
+  order-service:
+    build: ./order-service

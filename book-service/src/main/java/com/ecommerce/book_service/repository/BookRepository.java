@@ -1,0 +1,29 @@
+package com.ecommerce.book_service.repository;
+
+import com.ecommerce.book_service.entity.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
+    List<Book> findByTitle(String title);
+
+    List<Book> findByAuthorContainingIgnoreCase(String author);
+
+    List<Book> findByGenreIgnoreCase(String genre);
+
+    List<Book> findByFeaturedTrue();
+
+    List<Book> getByAuthor(String author);
+
+    @Query("SELECT b FROM Book b WHERE " +
+            "LOWER(b.title) LIKE LOWER(CONCAT('%',:keyword,'%')) OR " +
+            "LOWER(b.author) LIKE LOWER(CONCAT('%',:keyword,'%')) OR " +
+            "LOWER(b.genre) LIKE LOWER(CONCAT('%',:keyword,'%')) OR " +
+            "b.isbn LIKE CONCAT('%',:keyword,'%')")
+    List<Book> searchByKeyword(String keyword);
+
+}
